@@ -11,7 +11,9 @@ export default class App extends PureComponent {
     lines: {
       h: [100, 200],
       v: [100, 200]
-    }
+    },
+    isShowRuler: true, // 显示标尺
+    isShowReferLine: true // 显示参考线
   }
   componentDidMount () {
     // 滚动居中
@@ -46,8 +48,18 @@ export default class App extends PureComponent {
   handleLine = (lines) => {
     this.setState({ lines })
   }
+  // 显示/影藏标尺
+  handleShowRuler = () => {
+    const { isShowRuler } = this.state
+    this.setState({ isShowRuler: !isShowRuler })
+  }
+  // 显示/影藏参考线
+  handleShowReferLine = () => {
+    const { isShowReferLine } = this.state
+    this.setState({ isShowReferLine: !isShowReferLine })
+  }
   render () {
-    const { scale, startX, startY, lines } = this.state
+    const { scale, startX, startY, lines, isShowRuler, isShowReferLine } = this.state
     const { h, v } = lines
 
     const rectWidth = 160
@@ -67,6 +79,7 @@ export default class App extends PureComponent {
 
     return (
       <div className="wrapper">
+        <button className="button" onClick={this.handleShowRuler}>显示标尺</button>
         <div className="scale-value">{`scale: ${scale}`}</div>
         <ReactRuler
           thick={thick}
@@ -80,6 +93,10 @@ export default class App extends PureComponent {
           verLineArr={v}
           handleLine={this.handleLine}
           cornerActive={true}
+          isShowRuler={isShowRuler}
+          handleShowRuler={this.handleShowRuler}
+          isShowReferLine={isShowReferLine}
+          handleShowReferLine={this.handleShowReferLine}
           onCornerClick={this.handleCornerClick}
         />
         <div ref={this.setAppRef} id="screens" onScroll={this.handleScroll} onWheel={this.handleWheel}>

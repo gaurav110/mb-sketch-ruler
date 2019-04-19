@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
 
+// import RulerContextMenu from './RulerContextMenu'
 import CanvasRuler from './CanvasRuler'
 import Line from './Line'
 
@@ -10,7 +11,10 @@ export default class RulerWrapper extends PureComponent {
     this.state = {
       isDraggingLine: false,
       showIndicator: false,
-      value: 0
+      value: 0,
+      leftPosition: 0,
+      topPosition: 0,
+      showMenu: false
     }
   }
   handleIndicatorShow = (value) => !this.state.isDraggingLine && this.setState({ showIndicator: true, value })
@@ -43,16 +47,39 @@ export default class RulerWrapper extends PureComponent {
     lines.splice(index, 1)
     onLineChange(lines, vertical)
   }
+  // 展示右键菜单
+  onhandleShowRightMenu = (left, top) => {
+    const { onShowRightMenu, vertical } = this.props
+    const { showMenu } = this.state
+    // this.setState({
+    //   showMenu: !showMenu,
+    //   leftPosition: left,
+    //   topPosition: top
+    // })
+    onShowRightMenu(left, top, !showMenu, vertical)
+  }
+
   render () {
-    const { vertical, scale, width, height, start, selectStart, selectLength, lines, canvasConfigs } = this.props
+    const { vertical, scale, width, height, start, selectStart, selectLength, lines, canvasConfigs, isShowReferLine } = this.props
     const { showIndicator, value } = this.state
     const className = vertical ? 'v-container' : 'h-container'
 
     const indicatorOffset = (value - start) * scale
     const indicatorStyle = vertical ? { top: indicatorOffset } : { left: indicatorOffset }
 
+    // const menuPosition = {
+    //   left: leftPosition,
+    //   top: topPosition
+    // }
+
     return (
-      <div className={className}>
+      <div className={className} >
+        {/* { showMenu &&
+          <RulerContextMenu
+            menuPosition={menuPosition}
+            display={vertical}
+          />
+        } */}
         <CanvasRuler
           vertical={vertical}
           scale={scale}
@@ -66,8 +93,9 @@ export default class RulerWrapper extends PureComponent {
           onIndicatorShow={this.handleIndicatorShow}
           onIndicatorMove={this.handleIndicatorMove}
           onIndicatorHide={this.handleIndicatorHide}
+          onhandleShowRightMenu={this.onhandleShowRightMenu}
         />
-        <div className="lines">
+        <div className="lines" style={{ opacity: isShowReferLine ? 1 : 0 }}>
           {
             lines.map((v, i) =>
               <Line
@@ -104,5 +132,7 @@ RulerWrapper.propTypes = {
   selectStart: PropTypes.number,
   selectLength: PropTypes.number,
   canvasConfigs: PropTypes.object,
-  onLineChange: PropTypes.func
+  onLineChange: PropTypes.func,
+  onShowRightMenu: PropTypes.func,
+  isShowReferLine: PropTypes.bool
 }
