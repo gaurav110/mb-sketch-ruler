@@ -21,9 +21,11 @@ export default class RulerWrapper extends PureComponent {
   handleIndicatorMove = (value) => this.state.showIndicator && this.setState({ value })
   handleIndicatorHide = () => this.setState({ showIndicator: false })
   handleNewLine = (value) => {
-    const { vertical, lines, onLineChange } = this.props
+    console.log(value)
+    const { vertical, lines, onLineChange, handleShowReferLine, isShowReferLine } = this.props
     lines.push(value)
     onLineChange(lines, vertical)
+    !isShowReferLine && handleShowReferLine()
   }
 
   handleLineDown = () => this.setState({ isDraggingLine: true })
@@ -51,11 +53,6 @@ export default class RulerWrapper extends PureComponent {
   onhandleShowRightMenu = (left, top) => {
     const { onShowRightMenu, vertical } = this.props
     const { showMenu } = this.state
-    // this.setState({
-    //   showMenu: !showMenu,
-    //   leftPosition: left,
-    //   topPosition: top
-    // })
     onShowRightMenu(left, top, !showMenu, vertical)
   }
 
@@ -67,19 +64,8 @@ export default class RulerWrapper extends PureComponent {
     const indicatorOffset = (value - start) * scale
     const indicatorStyle = vertical ? { top: indicatorOffset } : { left: indicatorOffset }
 
-    // const menuPosition = {
-    //   left: leftPosition,
-    //   top: topPosition
-    // }
-
     return (
       <div className={className} >
-        {/* { showMenu &&
-          <RulerContextMenu
-            menuPosition={menuPosition}
-            display={vertical}
-          />
-        } */}
         <CanvasRuler
           vertical={vertical}
           scale={scale}
@@ -134,5 +120,6 @@ RulerWrapper.propTypes = {
   canvasConfigs: PropTypes.object,
   onLineChange: PropTypes.func,
   onShowRightMenu: PropTypes.func,
-  isShowReferLine: PropTypes.bool
+  isShowReferLine: PropTypes.bool,
+  handleShowReferLine: PropTypes.func
 }

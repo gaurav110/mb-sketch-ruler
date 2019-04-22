@@ -82,6 +82,11 @@ export default class SketchRuler extends PureComponent {
     return (
       <StyledRuler id="mb-ruler" className="mb-ruler" thick={thick} {...this.canvasConfigs} style={{ opacity: isShowRuler ? 1 : 0 }}
         onContextMenu={this.preventDefault}>
+        {/* 水平方向 */}
+        <RulerWrapper width={width} height={thick} start={startX} lines={horLineArr} selectStart={x} selectLength={w} {...commonProps} isShowReferLine={isShowReferLine} handleShowReferLine={handleShowReferLine} />
+        {/* 竖直方向 */}
+        <RulerWrapper width={thick} height={height} start={startY} lines={verLineArr} selectStart={y} selectLength={h} vertical {...commonProps} isShowReferLine={isShowReferLine} handleShowReferLine={handleShowReferLine} />
+        <a className={`corner${cornerActive ? ' active' : ''}`} style={{ backgroundColor: bgColor }} onClick={onCornerClick} />
         { isShowRuler &&
           <RulerContextMenu
             vertical={vertical}
@@ -97,11 +102,6 @@ export default class SketchRuler extends PureComponent {
             oncloseMenu={this.onhandlecloseMenu}
           />
         }
-        {/* 水平方向 */}
-        <RulerWrapper width={width} height={thick} start={startX} lines={horLineArr} selectStart={x} selectLength={w} {...commonProps} isShowReferLine={isShowReferLine} />
-        {/* 竖直方向 */}
-        <RulerWrapper width={thick} height={height} start={startY} lines={verLineArr} selectStart={y} selectLength={h} vertical {...commonProps} isShowReferLine={isShowReferLine} />
-        <a className={`corner${cornerActive ? ' active' : ''}`} style={{ backgroundColor: bgColor }} onClick={onCornerClick} />
       </StyledRuler>
     )
   }
