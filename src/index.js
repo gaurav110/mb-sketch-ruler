@@ -80,7 +80,7 @@ export default class SketchRuler extends PureComponent {
     }
 
     return (
-      <StyledRuler id="mb-ruler" className="mb-ruler" thick={thick} {...this.canvasConfigs} style={{ opacity: isShowRuler ? 1 : 0 }}
+      <StyledRuler id="mb-ruler" className="mb-ruler" isShowReferLine={isShowReferLine} thick={thick} {...this.canvasConfigs} style={{ opacity: isShowRuler ? 1 : 0 }}
         onContextMenu={this.preventDefault}>
         {/* 水平方向 */}
         <RulerWrapper width={width} height={thick} start={startX} lines={horLineArr} selectStart={x} selectLength={w} {...commonProps} isShowReferLine={isShowReferLine} handleShowReferLine={handleShowReferLine} />

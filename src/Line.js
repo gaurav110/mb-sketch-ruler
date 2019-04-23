@@ -32,14 +32,14 @@ export default class Line extends PureComponent {
   }
 
   render () {
-    const { vertical, start, scale } = this.props
+    const { vertical, start, scale, isShowReferLine } = this.props
     const { value } = this.state
     const offset = (value - start) * scale
     if (offset < 0) return null
     const lineStyle = vertical ? { top: offset } : { left: offset }
 
     return (
-      <div className="line" style={lineStyle} onMouseDown={this.handleDown}>
+      <div className="line" style={lineStyle} onMouseDown={isShowReferLine ? this.handleDown : null}>
         <div className="action">
           <span className="del" onClick={this.handleRemove}>&times;</span>
           <span className="value">{value}</span>
@@ -56,5 +56,6 @@ Line.propTypes = {
   value: PropTypes.number,
   onRemove: PropTypes.func,
   onMouseDown: PropTypes.func,
-  onRelease: PropTypes.func
+  onRelease: PropTypes.func,
+  isShowReferLine: PropTypes.bool
 }

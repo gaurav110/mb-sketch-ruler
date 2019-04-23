@@ -21,7 +21,6 @@ export default class RulerWrapper extends PureComponent {
   handleIndicatorMove = (value) => this.state.showIndicator && this.setState({ value })
   handleIndicatorHide = () => this.setState({ showIndicator: false })
   handleNewLine = (value) => {
-    console.log(value)
     const { vertical, lines, onLineChange, handleShowReferLine, isShowReferLine } = this.props
     lines.push(value)
     onLineChange(lines, vertical)
@@ -81,7 +80,7 @@ export default class RulerWrapper extends PureComponent {
           onIndicatorHide={this.handleIndicatorHide}
           onhandleShowRightMenu={this.onhandleShowRightMenu}
         />
-        <div className="lines" style={{ opacity: isShowReferLine ? 1 : 0 }}>
+        <div className="lines" style={{ display: isShowReferLine ? 'block' : 'none' }}>
           {
             lines.map((v, i) =>
               <Line
@@ -94,6 +93,7 @@ export default class RulerWrapper extends PureComponent {
                 onRemove={this.handleLineRemove}
                 onMouseDown={this.handleLineDown}
                 onRelease={this.handleLineRelease}
+                isShowReferLine={isShowReferLine}
               />
             )
           }

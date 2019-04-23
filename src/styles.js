@@ -20,6 +20,7 @@ export const StyleMenu = styled.div`
   &.hide-menu {
     animation: close-contextmenu 0.1s;
     animation-fill-mode: forwards;
+    z-index: -9999;
   }
   @keyframes open-contextmenu {
     from {
@@ -57,8 +58,9 @@ export const StyleMenu = styled.div`
     align-items: center;
     justify-content: space-between;
     padding: 0 12px;
+    cursor: pointer;
     &.hide-content {
-      display: none;
+      opacity: 0;
     }
   }
   .menu-content:hover {
@@ -76,8 +78,8 @@ export const StyleMenu = styled.div`
     opacity: ${props => props.showReferLine ? 1 : 0};
   }
   .no-icon:hover {
-    background: ${props => !props.isGraySpecific ? 'rgba(0, 0, 0, 0.04)' : 'none'} !important;
-    cursor:  ${props => !props.isGraySpecific ? 'pointer' : 'auto'} !important;
+    background: ${props => props.isGraySpecific ? 'none' : '#F2F2F2'} !important;
+    cursor: ${props => props.isGraySpecific ? 'auto' : 'pointer'};
   }
   .menu-content:after {
     content: '';
@@ -182,7 +184,7 @@ export const StyledRuler = styled.div`
       top: 0;
       padding-left: 5px;
       border-left: 1px solid ${props => props.lineColor};
-      cursor: ew-resize;
+      cursor: ${props => props.isShowReferLine ? 'ew-resize' : 'none'};
       .action {
         top: ${props => props.thick + 'px'};
         transform: translateX(-24px);
@@ -214,7 +216,7 @@ export const StyledRuler = styled.div`
       left: 0;
       padding-top: 5px;
       border-top: 1px solid ${props => props.lineColor};
-      cursor: ns-resize;
+      cursor: ${props => props.isShowReferLine ? 'ns-resize' : 'none'};
       .action {
         left: ${props => props.thick + 'px'};
         transform: translateY(-24px);

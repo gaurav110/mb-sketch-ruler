@@ -43,7 +43,7 @@ export default class RulerContextMenu extends PureComponent {
     const { left, top } = this.props.menuPosition
     const className = `menu-wrap ${!isShowMenu ? 'hide-menu' : ''}`
     const classNameContent = `menu-content ${!isShowMenu ? 'hide-content' : ''}`
-    const isGraySpecific = (vertical ? !verLineArr.length : !horLineArr.length) || !isShowReferLine
+    const isGraySpecific = (vertical ? !verLineArr.length : !horLineArr.length)
 
     return (
       createPortal(
@@ -70,7 +70,7 @@ export default class RulerContextMenu extends PureComponent {
           <a
             className={`${classNameContent} no-icon`}
             style={{ color: isGraySpecific ? 'rgb(65,80,88, .4)' : '' }}
-            onClick={!isGraySpecific ? this.onhandleShowSpecificRuler : null}
+            onClick={this.onhandleShowSpecificRuler}
           >
             删除所有
             {vertical ? '横向' : '纵向'}
