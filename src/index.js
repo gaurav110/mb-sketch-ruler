@@ -23,11 +23,9 @@ export default class SketchRuler extends PureComponent {
     this.state = {
       vertical: undefined,
       leftPosition: 0,
-      topPosition: 0,
-      isShowMenu: false
+      topPosition: 0
     }
   }
-
   handleLineChange = (arr, vertical) => {
     const { horLineArr, verLineArr, handleLine } = this.props
     const newLines = vertical
@@ -35,43 +33,47 @@ export default class SketchRuler extends PureComponent {
       : { h: [...arr], v: verLineArr }
     handleLine(newLines)
   }
-
   // 展示右键菜单
   onShowRightMenu = (left, top, isShowMenu, vertical) => {
+    const { handleShowMenu } = this.props
+    handleShowMenu(isShowMenu)
     this.setState({
       vertical: vertical,
-      isShowMenu: isShowMenu,
       leftPosition: left,
       topPosition: top
     })
   }
-
-  onhandlecloseMenu = (flag) => this.setState({ isShowMenu: flag })
-
+  onhandlecloseMenu = (flag) => {
+    const { handleShowMenu } = this.props
+    handleShowMenu(flag)
+  }
   // 取消默认菜单事件
   preventDefault (e) {
     e.preventDefault()
   }
-
   render () {
     const {
       width, height, scale, handleLine,
       thick, shadow, startX, startY, cornerActive,
       horLineArr, verLineArr, onCornerClick,
       palette: { bgColor },
+      isShowMenu,
       isShowRuler, handleShowRuler,
       isShowReferLine, handleShowReferLine
     } = this.props
 
-    const { leftPosition, topPosition, isShowMenu, vertical } = this.state
+    const { leftPosition, topPosition, vertical } = this.state
 
     const { x, y, width: w, height: h } = shadow
 
     const commonProps = {
       scale,
+      isShowRuler,
       canvasConfigs: this.canvasConfigs,
       onLineChange: this.handleLineChange,
-      onShowRightMenu: this.onShowRightMenu
+      onShowRightMenu: this.onShowRightMenu,
+      isShowReferLine,
+      handleShowReferLine
     }
 
     const menuPosition = {
@@ -83,9 +85,9 @@ export default class SketchRuler extends PureComponent {
       <StyledRuler id="mb-ruler" className="mb-ruler" isShowReferLine={isShowReferLine} thick={thick} {...this.canvasConfigs} style={{ opacity: isShowRuler ? 1 : 0 }}
         onContextMenu={this.preventDefault}>
         {/* 水平方向 */}
-        <RulerWrapper width={width} height={thick} start={startX} lines={horLineArr} selectStart={x} selectLength={w} {...commonProps} isShowReferLine={isShowReferLine} handleShowReferLine={handleShowReferLine} />
+        <RulerWrapper width={width} height={thick} start={startX} lines={horLineArr} selectStart={x} selectLength={w} {...commonProps} />
         {/* 竖直方向 */}
-        <RulerWrapper width={thick} height={height} start={startY} lines={verLineArr} selectStart={y} selectLength={h} vertical {...commonProps} isShowReferLine={isShowReferLine} handleShowReferLine={handleShowReferLine} />
+        <RulerWrapper width={thick} height={height} start={startY} lines={verLineArr} selectStart={y} selectLength={h} vertical {...commonProps} />
         <a className={`corner${cornerActive ? ' active' : ''}`} style={{ backgroundColor: bgColor }} onClick={onCornerClick} />
         { isShowRuler &&
           <RulerContextMenu
@@ -120,6 +122,8 @@ SketchRuler.propTypes = {
   handleLine: PropTypes.func,
   cornerActive: PropTypes.bool,
   onCornerClick: PropTypes.func,
+  isShowMenu: PropTypes.bool,
+  handleShowMenu: PropTypes.func,
   isShowRuler: PropTypes.bool,
   handleShowRuler: PropTypes.func,
   isShowReferLine: PropTypes.bool,

@@ -12,19 +12,27 @@ export default class App extends PureComponent {
       h: [100, 200],
       v: [100, 200]
     },
+    isShowMenu: false,
     isShowRuler: true, // 显示标尺
     isShowReferLine: true // 显示参考线
   }
   componentDidMount () {
+    window.addEventListener('mousedown', this.closeMenu, true)
     // 滚动居中
     this.$app.scrollLeft = this.$container.getBoundingClientRect().width / 2 - 300 // 300 = #screens.width / 2
+  }
+  componentWillUnmount () {
+    window.removeEventListener('mousedown', this.closeMenu, true)
   }
   componentDidUpdate (prevProps, prevState) {
     if (this.state.scale !== prevState.scale) {
       this.handleScroll()
     }
   }
-
+  closeMenu = (e) => {
+    if(e.button === 0) return
+    this.handleShowMenu(false)
+  }
   setAppRef = ref => this.$app = ref
   setContainerRef = ref => this.$container = ref
 
@@ -48,6 +56,10 @@ export default class App extends PureComponent {
   handleLine = (lines) => {
     this.setState({ lines })
   }
+  // 显示右键菜单
+  handleShowMenu = (flag) => {
+    this.setState({ isShowMenu: flag })
+  }
   // 显示/影藏标尺
   handleShowRuler = () => {
     const { isShowRuler } = this.state
@@ -59,7 +71,7 @@ export default class App extends PureComponent {
     this.setState({ isShowReferLine: !isShowReferLine })
   }
   render () {
-    const { scale, startX, startY, lines, isShowRuler, isShowReferLine } = this.state
+    const { scale, startX, startY, lines, isShowMenu, isShowRuler, isShowReferLine } = this.state
     const { h, v } = lines
 
     const rectWidth = 160
@@ -93,6 +105,8 @@ export default class App extends PureComponent {
           verLineArr={v}
           handleLine={this.handleLine}
           cornerActive={true}
+          isShowMenu={isShowMenu}
+          handleShowMenu={this.handleShowMenu}
           isShowRuler={isShowRuler}
           handleShowRuler={this.handleShowRuler}
           isShowReferLine={isShowReferLine}

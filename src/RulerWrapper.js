@@ -56,7 +56,7 @@ export default class RulerWrapper extends PureComponent {
   }
 
   render () {
-    const { vertical, scale, width, height, start, selectStart, selectLength, lines, canvasConfigs, isShowReferLine } = this.props
+    const { vertical, scale, width, height, start, selectStart, selectLength, lines, canvasConfigs, isShowReferLine, isShowRuler } = this.props
     const { showIndicator, value } = this.state
     const className = vertical ? 'v-container' : 'h-container'
 
@@ -67,6 +67,7 @@ export default class RulerWrapper extends PureComponent {
       <div className={className} >
         <CanvasRuler
           vertical={vertical}
+          isShowRuler={isShowRuler}
           scale={scale}
           width={width}
           height={height}
@@ -109,6 +110,7 @@ export default class RulerWrapper extends PureComponent {
   }
 }
 RulerWrapper.propTypes = {
+  isShowRuler: PropTypes.bool,
   vertical: PropTypes.bool,
   scale: PropTypes.number,
   width: PropTypes.number,

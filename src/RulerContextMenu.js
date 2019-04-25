@@ -10,11 +10,11 @@ export default class RulerContextMenu extends PureComponent {
   }
   componentDidMount () {
     document.body.appendChild(this.el)
-    window.addEventListener('click', this.closeMenu)
+    window.addEventListener('click', this.closeMenu, true)
   }
   componentWillUnmount () {
     document.body.removeChild(this.el)
-    window.removeEventListener('click', this.closeMenu)
+    window.removeEventListener('click', this.closeMenu, true)
   }
   closeMenu = () => {
     this.props.oncloseMenu(false)
@@ -57,15 +57,11 @@ export default class RulerContextMenu extends PureComponent {
           <a
             className={classNameContent}
             onClick={this.onhandleShowRuler}
-          >
-            显示标尺
-          </a>
+          >显示标尺</a>
           <a
             className={classNameContent}
             onClick={this.onhandleShowReferLine}
-          >
-            显示参考线
-          </a>
+          >显示参考线</a>
           <div className="divider" />
           <a
             className={`${classNameContent} no-icon`}
@@ -87,12 +83,12 @@ RulerContextMenu.propTypes = {
   vertical: PropTypes.bool,
   menuPosition: PropTypes.object,
   isShowMenu: PropTypes.bool,
-  oncloseMenu: PropTypes.func,
   isShowRuler: PropTypes.bool,
   handleShowRuler: PropTypes.func,
   isShowReferLine: PropTypes.bool,
   handleShowReferLine: PropTypes.func,
   horLineArr: PropTypes.array,
   verLineArr: PropTypes.array,
-  handleLine: PropTypes.func
+  handleLine: PropTypes.func,
+  oncloseMenu: PropTypes.func
 }
