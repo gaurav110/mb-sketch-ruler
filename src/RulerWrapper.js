@@ -13,8 +13,7 @@ export default class RulerWrapper extends PureComponent {
       showIndicator: false,
       value: 0,
       leftPosition: 0,
-      topPosition: 0,
-      showMenu: false
+      topPosition: 0
     }
   }
   handleIndicatorShow = (value) => !this.state.isDraggingLine && this.setState({ showIndicator: true, value })
@@ -51,8 +50,7 @@ export default class RulerWrapper extends PureComponent {
   // 展示右键菜单
   onhandleShowRightMenu = (left, top) => {
     const { onShowRightMenu, vertical } = this.props
-    const { showMenu } = this.state
-    onShowRightMenu(left, top, !showMenu, vertical)
+    onShowRightMenu(left, top, vertical)
   }
 
   render () {

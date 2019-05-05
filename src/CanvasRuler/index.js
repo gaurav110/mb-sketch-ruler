@@ -77,7 +77,7 @@ export default class CanvasRuler extends PureComponent {
         ref={this.setCanvasRef}
         onClick={this.handleClick}
         onMouseEnter={this.handleEnter}
-        onMouseDown={isShowRuler && this.handleRightMenu}
+        onMouseDown={isShowRuler ? this.handleRightMenu : undefined}
         onMouseMove={this.handleMove}
         onMouseLeave={this.handleLeave}
       />

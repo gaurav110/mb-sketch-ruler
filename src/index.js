@@ -21,6 +21,7 @@ export default class SketchRuler extends PureComponent {
       cornerActiveColor: palette.cornerActiveColor
     }
     this.state = {
+      isShowMenu: false,
       vertical: undefined,
       leftPosition: 0,
       topPosition: 0
@@ -34,18 +35,18 @@ export default class SketchRuler extends PureComponent {
     handleLine(newLines)
   }
   // 展示右键菜单
-  onShowRightMenu = (left, top, isShowMenu, vertical) => {
-    const { handleShowMenu } = this.props
-    handleShowMenu(isShowMenu)
+  onShowRightMenu = (left, top, vertical) => {
     this.setState({
+      isShowMenu: true,
       vertical: vertical,
       leftPosition: left,
       topPosition: top
     })
   }
-  onhandlecloseMenu = (flag) => {
-    const { handleShowMenu } = this.props
-    handleShowMenu(flag)
+  onhandlecloseMenu = () => {
+    this.setState({
+      isShowMenu: false
+    })
   }
   // 取消默认菜单事件
   preventDefault (e) {
@@ -56,13 +57,12 @@ export default class SketchRuler extends PureComponent {
       width, height, scale, handleLine,
       thick, shadow, startX, startY, cornerActive,
       horLineArr, verLineArr, onCornerClick,
-      palette: { bgColor },
-      isShowMenu,
+      palette: { bgColor }, lang,
       isShowRuler, handleShowRuler,
       isShowReferLine, handleShowReferLine
     } = this.props
 
-    const { leftPosition, topPosition, vertical } = this.state
+    const { leftPosition, topPosition, vertical, isShowMenu } = this.state
 
     const { x, y, width: w, height: h } = shadow
 
@@ -89,8 +89,9 @@ export default class SketchRuler extends PureComponent {
         {/* 竖直方向 */}
         <RulerWrapper width={thick} height={height} start={startY} lines={verLineArr} selectStart={y} selectLength={h} vertical {...commonProps} />
         <a className={`corner${cornerActive ? ' active' : ''}`} style={{ backgroundColor: bgColor }} onClick={onCornerClick} />
-        { isShowRuler &&
+        { isShowMenu &&
           <RulerContextMenu
+            lang={lang}
             vertical={vertical}
             handleLine={handleLine}
             horLineArr={horLineArr}
@@ -122,8 +123,7 @@ SketchRuler.propTypes = {
   handleLine: PropTypes.func,
   cornerActive: PropTypes.bool,
   onCornerClick: PropTypes.func,
-  isShowMenu: PropTypes.bool,
-  handleShowMenu: PropTypes.func,
+  lang: PropTypes.string,
   isShowRuler: PropTypes.bool,
   handleShowRuler: PropTypes.func,
   isShowReferLine: PropTypes.bool,
@@ -153,6 +153,7 @@ SketchRuler.defaultProps = {
     width: 200,
     height: 400
   },
+  lang: 'zh-CN',
   palette: {
     bgColor: 'rgba(225,225,225, 0)', // ruler bg color
     longfgColor: '#BABBBC', // ruler longer mark color

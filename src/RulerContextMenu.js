@@ -1,3 +1,4 @@
+/* eslint-disable no-return-assign */
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
 import { createPortal } from 'react-dom'
@@ -10,14 +11,22 @@ export default class RulerContextMenu extends PureComponent {
   }
   componentDidMount () {
     document.body.appendChild(this.el)
-    window.addEventListener('click', this.closeMenu, true)
+    document.addEventListener('click', this.closeMenu)
+    document.addEventListener('mousedown', this.closeMenuMouse, true)
   }
   componentWillUnmount () {
+    document.removeEventListener('mousedown', this.closeMenuMouse, true)
+    document.addEventListener('click', this.closeMenu)
     document.body.removeChild(this.el)
-    window.removeEventListener('click', this.closeMenu, true)
   }
-  closeMenu = () => {
-    this.props.oncloseMenu(false)
+  // click事件只响应左键，menu里的每部分的点击事件使用的是click，
+  // 所以mousedown只能响应右键，否则内部点击事件失效
+  closeMenu = (e) => {
+    const { oncloseMenu } = this.props
+    oncloseMenu()
+  }
+  closeMenuMouse = (e) => {
+    if (e.button === 2) this.closeMenu()
   }
   // 显示/影藏 ruler
   onhandleShowRuler = () => {
@@ -37,13 +46,14 @@ export default class RulerContextMenu extends PureComponent {
       : { h: [], v: verLineArr }
     handleLine(newLines)
   }
-
   render () {
-    const { isShowRuler, isShowMenu, isShowReferLine, vertical, verLineArr, horLineArr } = this.props
+    const { isShowRuler, isShowMenu, isShowReferLine, vertical, verLineArr, horLineArr, lang } = this.props
     const { left, top } = this.props.menuPosition
     const className = `menu-wrap ${!isShowMenu ? 'hide-menu' : ''}`
     const classNameContent = `menu-content ${!isShowMenu ? 'hide-content' : ''}`
     const isGraySpecific = (vertical ? !verLineArr.length : !horLineArr.length)
+    const verticalVal = lang === 'zh-CN' ? '横向' : ' vertical '
+    const horizontalVal = lang === 'zh-CN' ? '横向' : ' horizontal '
 
     return (
       createPortal(
@@ -53,24 +63,25 @@ export default class RulerContextMenu extends PureComponent {
           showRuler={isShowRuler}
           showReferLine={isShowReferLine}
           isGraySpecific={isGraySpecific}
+          lang={lang}
         >
           <a
             className={classNameContent}
             onClick={this.onhandleShowRuler}
-          >显示标尺</a>
+          >{ lang === 'zh-CN' ? '显示标尺' : 'show rulers' }</a>
           <a
             className={classNameContent}
             onClick={this.onhandleShowReferLine}
-          >显示参考线</a>
+          >{ lang === 'zh-CN' ? '显示参考线' : 'show all guides' }</a>
           <div className="divider" />
           <a
             className={`${classNameContent} no-icon`}
             style={{ color: isGraySpecific ? 'rgb(65,80,88, .4)' : '' }}
             onClick={this.onhandleShowSpecificRuler}
           >
-            删除所有
-            {vertical ? '横向' : '纵向'}
-            参考线
+            { lang === 'zh-CN' ? '删除所有' : 'remove all'}
+            { vertical ? verticalVal : horizontalVal }
+            { lang === 'zh-CN' ? '参考线' : 'guides' }
           </a>
         </StyleMenu>
         , this.el
@@ -90,5 +101,6 @@ RulerContextMenu.propTypes = {
   horLineArr: PropTypes.array,
   verLineArr: PropTypes.array,
   handleLine: PropTypes.func,
-  oncloseMenu: PropTypes.func
+  oncloseMenu: PropTypes.func,
+  lang: PropTypes.string
 }

@@ -12,13 +12,13 @@ export const StyleMenu = styled.div`
   border-radius: 2px;
   z-index: 4;
   padding: 6px 0;
-  transition: opacity, transform, display 0.2s ease-in-out;
+  transition: opacity 0.2s ease-in-out;
   transform-origin: 0 0;
   animation: open-contextmenu 0.2s;
   animation-fill-mode: forwards;
   z-index: 999;
   &.hide-menu {
-    animation: close-contextmenu 0.1s;
+    animation: close-contextmenu 0.2s;
     animation-fill-mode: forwards;
     z-index: -9999;
   }
@@ -45,7 +45,7 @@ export const StyleMenu = styled.div`
   .divider {
     margin: 4px 12px;
     border-top: 1px solid #DBDBDB;
-    min-width: 108px;
+    min-width: ${props => props.lang === 'ch' ? '82%' : '87%'};
   }
   .menu-content {
     font-size: 12px;
@@ -59,9 +59,6 @@ export const StyleMenu = styled.div`
     justify-content: space-between;
     padding: 0 12px;
     cursor: pointer;
-    &.hide-content {
-      opacity: 0;
-    }
   }
   .menu-content:hover {
     background: #F2F2F2;

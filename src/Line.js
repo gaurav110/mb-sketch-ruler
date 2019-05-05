@@ -39,7 +39,7 @@ export default class Line extends PureComponent {
     const lineStyle = vertical ? { top: offset } : { left: offset }
 
     return (
-      <div className="line" style={lineStyle} onMouseDown={isShowReferLine ? this.handleDown : null}>
+      <div className="line" style={lineStyle} onMouseDown={isShowReferLine ? this.handleDown : undefined}>
         <div className="action">
           <span className="del" onClick={this.handleRemove}>&times;</span>
           <span className="value">{value}</span>

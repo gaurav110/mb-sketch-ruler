@@ -38,6 +38,15 @@ body * {
   left: 100px;
   bottom: 100%; }
 
+.button-ch {
+  position: absolute;
+  left: 200px;
+  bottom: 100%; }
+.button-en {
+  position: absolute;
+  left: 230px;
+  bottom: 100%; }
+
 #canvas {
   position: absolute;
   top: 80px;
