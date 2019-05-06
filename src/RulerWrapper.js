@@ -1,7 +1,5 @@
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
-
-// import RulerContextMenu from './RulerContextMenu'
 import CanvasRuler from './CanvasRuler'
 import Line from './Line'
 

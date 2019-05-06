@@ -16,7 +16,7 @@ export default class RulerContextMenu extends PureComponent {
   }
   componentWillUnmount () {
     document.removeEventListener('mousedown', this.closeMenuMouse, true)
-    document.addEventListener('click', this.closeMenu)
+    document.removeEventListener('click', this.closeMenu)
     document.body.removeChild(this.el)
   }
   // click事件只响应左键，menu里的每部分的点击事件使用的是click，
@@ -52,7 +52,7 @@ export default class RulerContextMenu extends PureComponent {
     const className = `menu-wrap ${!isShowMenu ? 'hide-menu' : ''}`
     const classNameContent = `menu-content ${!isShowMenu ? 'hide-content' : ''}`
     const isGraySpecific = (vertical ? !verLineArr.length : !horLineArr.length)
-    const verticalVal = lang === 'zh-CN' ? '横向' : ' vertical '
+    const verticalVal = lang === 'zh-CN' ? '纵向' : ' vertical '
     const horizontalVal = lang === 'zh-CN' ? '横向' : ' horizontal '
 
     return (
@@ -80,7 +80,7 @@ export default class RulerContextMenu extends PureComponent {
             onClick={this.onhandleShowSpecificRuler}
           >
             { lang === 'zh-CN' ? '删除所有' : 'remove all'}
-            { vertical ? verticalVal : horizontalVal }
+            { vertical ? horizontalVal : verticalVal }
             { lang === 'zh-CN' ? '参考线' : 'guides' }
           </a>
         </StyleMenu>
