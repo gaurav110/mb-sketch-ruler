@@ -4,7 +4,10 @@
   "description": "A sketch like ruler in javascript",
   "author": "iny7",
   "license": "MIT",
-  "repository": "gaurav110/mb-sketch-ruler",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gaurav110/mb-sketch-ruler.git"
+  },
   "main": "dist/index.js",
   "module": "dist/index.es.js",
   "jsnext:main": "dist/index.es.js",
