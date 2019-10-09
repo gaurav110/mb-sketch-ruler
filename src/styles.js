@@ -78,9 +78,9 @@ export const StyledRuler = styled.div`
   }
 
   .h-container {
-    left: ${props => props.thick + 'px'};
+    left: 0;
     top: 0;
-    width: calc(100% - ${props => props.thick + 'px'});
+    width: calc(100%);
     height: ${props => `${props.thick + 1}px`};
 
     .line {
@@ -110,10 +110,10 @@ export const StyledRuler = styled.div`
   }
 
   .v-container {
-    top: ${props => props.thick + 'px'};
+    top: 0;
     left: 0;
     width: ${props => `${props.thick + 1}px`};
-    height: calc(100% - ${props => props.thick + 'px'});
+    height: calc(100%);
 
     .line {
       width: 100vw;
