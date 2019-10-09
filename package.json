@@ -4,7 +4,7 @@
   "description": "A sketch like ruler in javascript",
   "author": "iny7",
   "license": "MIT",
-  "repository": "mockingbot/mb-sketch-ruler",
+  "repository": "gaurav110/mb-sketch-ruler",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
   "jsnext:main": "dist/index.es.js",
